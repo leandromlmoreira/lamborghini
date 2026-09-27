@@ -1,10 +1,11 @@
 {
-  "name": "lamborghini",
+  "name": "toro",
   "version": "1.0.0",
   "main": "expo-router/entry",
   "dependencies": {
+    "@expo-google-fonts/chakra-petch": "^0.4.1",
     "@expo-google-fonts/manrope": "^0.4.2",
-    "@expo-google-fonts/michroma": "^0.4.2",
+    "@expo-google-fonts/syncopate": "^0.4.1",
     "@expo/metro-runtime": "~57.0.16",
     "@react-native-async-storage/async-storage": "2.2.0",
     "axios": "^1.20.0",
@@ -24,7 +25,8 @@
   },
   "devDependencies": {
     "@types/react": "~19.2.2",
-    "typescript": "~6.0.3"
+    "typescript": "~6.0.3",
+    "vitest": "^5.0.2"
   },
   "scripts": {
     "start": "expo start",
@@ -32,7 +34,8 @@
     "ios": "expo start --ios",
     "web": "expo start --web",
     "typecheck": "tsc --noEmit",
-    "build:web": "expo export --platform web"
+    "build:web": "expo export --platform web",
+    "test": "vitest run"
   },
   "private": true
 }

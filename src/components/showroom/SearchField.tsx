@@ -15,7 +15,7 @@ export function SearchField({ value, onChange }: Props) {
   const [focused, setFocused] = useState(false);
   return (
     <View style={[styles.field, focused && styles.focused]}>
-      <Icon name="search" size={18} color={focused ? colors.gold : colors.muted} />
+      <Icon name="search" size={18} color={focused ? colors.accent : colors.muted} />
       <TextInput
         value={value}
         onChangeText={onChange}
@@ -26,7 +26,7 @@ export function SearchField({ value, onChange }: Props) {
         accessibilityLabel="Buscar no acervo"
         style={[styles.input, noOutline]}
       />
-      {value.length > 0 && <IconButton icon="close" label="Limpar busca" onPress={() => onChange("")} size={30} />}
+      {value.length > 0 && <IconButton icon="close" label="Limpar busca" onPress={() => onChange("")} size={32} cue="tick" />}
     </View>
   );
 }
@@ -35,15 +35,15 @@ const styles = StyleSheet.create({
   field: {
     flexDirection: "row",
     alignItems: "center",
-    gap: 10,
-    height: 50,
-    paddingLeft: 18,
-    paddingRight: 10,
-    borderRadius: 999,
+    gap: 12,
+    height: 48,
+    paddingLeft: 16,
+    paddingRight: 8,
+    borderRadius: 10,
     borderWidth: 1,
-    borderColor: colors.hairline,
-    backgroundColor: colors.shell,
+    borderColor: colors.line,
+    backgroundColor: colors.surface,
   },
-  focused: { borderColor: colors.goldLine, backgroundColor: colors.goldSoft },
-  input: { flex: 1, minWidth: 0, height: "100%", fontFamily: fonts.medium, fontSize: 14, color: colors.text },
+  focused: { borderColor: colors.accentLine },
+  input: { flex: 1, minWidth: 0, height: "100%", fontFamily: fonts.medium, fontSize: 15, color: colors.text },
 });

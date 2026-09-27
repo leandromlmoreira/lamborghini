@@ -17,7 +17,7 @@ export function EmptyState({ title, message, action, onAction }: Props) {
     <Shell>
       <View style={styles.body}>
         <View style={styles.art}>
-          <Stage tone="gold" />
+          <Stage tone="acid" />
           <View style={styles.silhouette}>
             <Silhouette />
           </View>
@@ -36,7 +36,7 @@ const styles = StyleSheet.create({
   body: { alignItems: "center", paddingHorizontal: 24, paddingBottom: 40, gap: 12 },
   art: { alignSelf: "stretch", marginHorizontal: -24, height: 200, alignItems: "center", justifyContent: "center" },
   silhouette: { width: "70%", maxWidth: 340, aspectRatio: 500 / 151, opacity: 0.8 },
-  title: { fontFamily: fonts.display, fontSize: 20, color: colors.text, textAlign: "center" },
+  title: { fontFamily: fonts.display, fontSize: 18, lineHeight: 26, letterSpacing: 1, color: colors.text, textAlign: "center", textTransform: "uppercase" },
   message: { fontFamily: fonts.body, fontSize: 14, lineHeight: 22, color: colors.muted, textAlign: "center", maxWidth: 380 },
   action: { marginTop: 12 },
 });

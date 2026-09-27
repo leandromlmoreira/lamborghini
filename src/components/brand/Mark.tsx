@@ -1,18 +1,25 @@
 import { StyleSheet, Text, View } from "react-native";
-import Svg, { Path } from "react-native-svg";
+import Svg, { Polygon } from "react-native-svg";
 import { colors, fonts } from "../../theme/tokens";
 
 type Props = {
   compact?: boolean;
 };
 
+export function MarkGlyph({ size = 26 }: { size?: number }) {
+  return (
+    <Svg width={size} height={size} viewBox="0 0 32 32">
+      <Polygon points="7,7 30,7 26.5,13 3.5,13" fill={colors.accent} />
+      <Polygon points="14,15 20.5,15 14.5,27 8,27" fill={colors.accent} />
+      <Polygon points="23,15 27.5,15 26,18 21.5,18" fill={colors.text} opacity={0.85} />
+    </Svg>
+  );
+}
+
 export function Mark({ compact = false }: Props) {
   return (
     <View style={styles.row}>
-      <Svg width={26} height={26} viewBox="0 0 32 32" fill="none">
-        <Path d="M16 2l12 7v14l-12 7-12-7V9z" stroke={colors.gold} strokeWidth={1.4} />
-        <Path d="M9 11h14M16 11v12M11 7l5 4 5-4" stroke={colors.gold} strokeWidth={1.4} strokeLinecap="round" />
-      </Svg>
+      <MarkGlyph />
       {!compact && <Text style={styles.word}>TORO</Text>}
     </View>
   );
@@ -20,5 +27,5 @@ export function Mark({ compact = false }: Props) {
 
 const styles = StyleSheet.create({
   row: { flexDirection: "row", alignItems: "center", gap: 10 },
-  word: { fontFamily: fonts.display, color: colors.text, fontSize: 13, letterSpacing: 4 },
+  word: { fontFamily: fonts.display, color: colors.text, fontSize: 15, letterSpacing: 5 },
 });

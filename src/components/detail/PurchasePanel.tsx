@@ -29,7 +29,7 @@ export function PurchasePanel({ car, quantity, onAdjust }: Props) {
         {quantity === 0 ? (
           <CtaButton label="Guardar na garagem" icon="plus" onPress={() => onAdjust(1)} />
         ) : (
-          <CtaButton label="Abrir minha garagem" icon="garage" variant="ghost" onPress={() => router.navigate("/garagem")} />
+          <CtaButton label="Abrir a garagem" icon="garage" variant="ghost" onPress={() => router.navigate("/garagem")} />
         )}
       </View>
     </Shell>
@@ -37,11 +37,11 @@ export function PurchasePanel({ car, quantity, onAdjust }: Props) {
 }
 
 const styles = StyleSheet.create({
-  body: { padding: 20, gap: 22 },
+  body: { padding: 20, paddingLeft: 24, gap: 22 },
   row: { flexDirection: "row", flexWrap: "wrap", justifyContent: "space-between", gap: 18 },
   block: { gap: 10 },
   right: { alignItems: "flex-end" },
-  label: { fontFamily: fonts.semibold, fontSize: 10, letterSpacing: 2, color: colors.faint, textTransform: "uppercase" },
-  subtotal: { fontFamily: fonts.display, fontSize: 18, color: colors.gold, paddingVertical: 10 },
+  label: { fontFamily: fonts.techSemibold, fontSize: 11, letterSpacing: 1.8, color: colors.faint, textTransform: "uppercase" },
+  subtotal: { fontFamily: fonts.techBold, fontSize: 24, color: colors.accent, paddingVertical: 6, fontVariant: ["tabular-nums"] },
   subtotalIdle: { color: colors.faint },
 });

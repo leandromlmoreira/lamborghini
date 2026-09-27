@@ -1,7 +1,7 @@
 {
   "expo": {
     "name": "Toro Showroom",
-    "slug": "lamborghini",
+    "slug": "toro",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
@@ -11,7 +11,7 @@
     },
     "android": {
       "adaptiveIcon": {
-        "backgroundColor": "#E6F4FE",
+        "backgroundColor": "#050506",
         "foregroundImage": "./assets/android-icon-foreground.png",
         "backgroundImage": "./assets/android-icon-background.png",
         "monochromeImage": "./assets/android-icon-monochrome.png"
@@ -24,18 +24,18 @@
       "output": "single",
       "name": "Toro Showroom",
       "shortName": "Toro",
-      "themeColor": "#08080A",
-      "backgroundColor": "#08080A",
-      "description": "Showroom e garagem de supercarros italianos, com dados ao vivo."
+      "themeColor": "#050506",
+      "backgroundColor": "#050506",
+      "description": "Showroom e garagem de supercarros italianos: luz de estúdio, ficha técnica animada e ronco sintetizado."
     },
     "plugins": [
       "expo-font",
       "expo-router"
     ],
     "scheme": "toro",
-    "backgroundColor": "#08080A",
+    "backgroundColor": "#050506",
     "experiments": {
-      "baseUrl": "/lamborghini"
+      "baseUrl": "/toro"
     }
   }
 }

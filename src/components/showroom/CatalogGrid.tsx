@@ -14,7 +14,7 @@ type Props = {
   onToggle: (id: number) => void;
 };
 
-const GAP = 20;
+const GAP = 24;
 
 export function CatalogGrid({ cars, garage, loading, onToggle }: Props) {
   const { contentWidth, columns } = useLayout();

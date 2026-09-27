@@ -11,7 +11,9 @@ export type IconName =
   | "search"
   | "garage"
   | "close"
-  | "refresh";
+  | "refresh"
+  | "sound-on"
+  | "sound-off";
 
 type Props = {
   name: IconName;
@@ -30,6 +32,8 @@ const PATHS: Record<Exclude<IconName, "search">, string> = {
   garage: "M3 10l9-6 9 6v10H3zM7 20v-6h10v6M7 17h10",
   close: "M6 6l12 12M18 6L6 18",
   refresh: "M20 11a8 8 0 1 0-2.34 5.66M20 5v6h-6",
+  "sound-on": "M4 9.5h3.5L12 6v12l-4.5-3.5H4zM15.5 9a4.2 4.2 0 0 1 0 6M18 6.5a8 8 0 0 1 0 11",
+  "sound-off": "M4 9.5h3.5L12 6v12l-4.5-3.5H4zM16 9.5l5 5M21 9.5l-5 5",
 };
 
 export function Icon({ name, size = 18, color = colors.text, strokeWidth = 1.5 }: Props) {

@@ -1,5 +1,7 @@
 import { useRef, useState, type ReactNode } from "react";
 import { Animated, Platform, Pressable, type StyleProp, type ViewStyle } from "react-native";
+import { useSound } from "../../sound/SoundContext";
+import type { Cue } from "../../sound/patches";
 import { motion } from "../../theme/tokens";
 
 type Props = {
@@ -8,21 +10,39 @@ type Props = {
   wrapperStyle?: StyleProp<ViewStyle>;
   pressedScale?: number;
   accessibilityLabel?: string;
+  accessibilityState?: { selected?: boolean; disabled?: boolean };
   disabled?: boolean;
+  cue?: Cue | null;
   children: ReactNode | ((hovered: boolean) => ReactNode);
 };
 
-export function PressableScale({ onPress, style, wrapperStyle, pressedScale = 0.97, accessibilityLabel, disabled, children }: Props) {
+export function PressableScale({
+  onPress,
+  style,
+  wrapperStyle,
+  pressedScale = 0.97,
+  accessibilityLabel,
+  accessibilityState,
+  disabled,
+  cue = "click",
+  children,
+}: Props) {
   const scale = useRef(new Animated.Value(1)).current;
   const [hovered, setHovered] = useState(false);
+  const { play } = useSound();
 
-  const animateTo = (toValue: number) =>
+  const animateTo = (toValue: number, duration: number) =>
     Animated.timing(scale, {
       toValue,
-      duration: motion.fast,
-      easing: motion.easeSnap,
+      duration,
+      easing: motion.easeOut,
       useNativeDriver: Platform.OS !== "web",
     }).start();
+
+  const pressIn = () => {
+    animateTo(pressedScale, motion.press);
+    if (cue) play(cue);
+  };
 
   return (
     <Pressable
@@ -31,8 +51,9 @@ export function PressableScale({ onPress, style, wrapperStyle, pressedScale = 0.
       disabled={disabled}
       accessibilityRole="button"
       accessibilityLabel={accessibilityLabel}
-      onPressIn={() => animateTo(pressedScale)}
-      onPressOut={() => animateTo(1)}
+      accessibilityState={accessibilityState}
+      onPressIn={pressIn}
+      onPressOut={() => animateTo(1, motion.fast)}
       onHoverIn={() => setHovered(true)}
       onHoverOut={() => setHovered(false)}
     >

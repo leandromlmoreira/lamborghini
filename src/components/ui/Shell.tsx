@@ -11,27 +11,30 @@ type Props = {
 
 export function Shell({ children, style, coreStyle, active = false }: Props) {
   return (
-    <View style={[styles.shell, active && styles.shellActive, style]}>
+    <View style={[styles.panel, active && styles.active, style]}>
       <View style={[styles.core, coreStyle]}>{children}</View>
+      <View style={[styles.sheen, active && styles.sheenActive]} pointerEvents="none" />
     </View>
   );
 }
 
 const styles = StyleSheet.create({
-  shell: {
-    padding: 6,
-    borderRadius: radii.shell,
-    backgroundColor: colors.shell,
+  panel: {
+    borderRadius: radii.panel,
     borderWidth: 1,
-    borderColor: colors.hairline,
-  },
-  shellActive: { borderColor: colors.goldLine },
-  core: {
-    flexGrow: 1,
-    borderRadius: radii.core,
+    borderColor: colors.line,
     backgroundColor: colors.surface,
-    borderTopWidth: 1,
-    borderTopColor: colors.highlight,
     overflow: "hidden",
   },
+  active: { borderColor: colors.accentLine },
+  core: { flexGrow: 1 },
+  sheen: {
+    position: "absolute",
+    top: 0,
+    left: 24,
+    right: 24,
+    height: 1,
+    backgroundColor: "rgba(255,255,255,0.14)",
+  },
+  sheenActive: { backgroundColor: colors.accent, opacity: 0.7 },
 });

@@ -1,50 +1,61 @@
 import { Easing } from "react-native";
 
 export const colors = {
-  background: "#08080A",
-  surface: "#111114",
-  surfaceRaised: "#17171B",
-  shell: "rgba(255,255,255,0.03)",
-  hairline: "rgba(255,255,255,0.07)",
-  hairlineStrong: "rgba(255,255,255,0.14)",
-  highlight: "rgba(255,255,255,0.06)",
-  text: "#F4F1EA",
-  muted: "#9A958C",
-  faint: "#5E5A54",
-  gold: "#E9B824",
-  goldDeep: "#B8860B",
-  goldSoft: "rgba(233,184,36,0.12)",
-  goldLine: "rgba(233,184,36,0.35)",
-  onGold: "#141005",
-  danger: "#FF7A66",
-  dangerSoft: "rgba(255,122,102,0.12)",
+  background: "#050506",
+  stage: "#09090B",
+  surface: "#0D0D10",
+  surfaceRaised: "#141418",
+  line: "rgba(255,255,255,0.08)",
+  lineStrong: "rgba(255,255,255,0.18)",
+  sheen: "rgba(255,255,255,0.06)",
+  text: "#F3F3EE",
+  muted: "#A2A29B",
+  faint: "#7E7E78",
+  accent: "#C8FF1A",
+  accentDeep: "#9BCC00",
+  accentSoft: "rgba(200,255,26,0.08)",
+  accentLine: "rgba(200,255,26,0.45)",
+  onAccent: "#0A0E00",
+  ice: "#8EC5FF",
+  amber: "#FF8A3D",
+  danger: "#FF6B4A",
+  dangerSoft: "rgba(255,107,74,0.1)",
+  dangerLine: "rgba(255,107,74,0.35)",
 };
 
 export const fonts = {
-  display: "Michroma_400Regular",
+  display: "Syncopate_700Bold",
+  displayLight: "Syncopate_400Regular",
+  tech: "ChakraPetch_500Medium",
+  techSemibold: "ChakraPetch_600SemiBold",
+  techBold: "ChakraPetch_700Bold",
   body: "Manrope_400Regular",
   medium: "Manrope_500Medium",
   semibold: "Manrope_600SemiBold",
   bold: "Manrope_700Bold",
-  heavy: "Manrope_800ExtraBold",
 };
 
 export const radii = {
-  shell: 28,
-  core: 22,
-  control: 999,
+  panel: 14,
+  inner: 10,
+  control: 8,
 };
 
+export const skew = "-12deg";
+export const unskew = "12deg";
+
 export const motion = {
-  easeOut: Easing.bezier(0.32, 0.72, 0, 1),
-  easeSnap: Easing.bezier(0.2, 0.9, 0.1, 1),
-  fast: 180,
-  base: 420,
-  slow: 720,
+  easeOut: Easing.bezier(0.23, 1, 0.32, 1),
+  easeInOut: Easing.bezier(0.77, 0, 0.175, 1),
+  drawer: Easing.bezier(0.32, 0.72, 0, 1),
+  press: 140,
+  fast: 220,
+  base: 480,
+  slow: 820,
 };
 
 export const layout = {
-  maxWidth: 1180,
+  maxWidth: 1200,
   wide: 1024,
   medium: 700,
 };

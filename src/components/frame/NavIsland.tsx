@@ -4,6 +4,7 @@ import { useShowroom } from "../../state/ShowroomContext";
 import { colors, fonts } from "../../theme/tokens";
 import { Mark } from "../brand/Mark";
 import { PressableScale } from "../ui/PressableScale";
+import { SoundToggle } from "./SoundToggle";
 
 type Tab = { href: "/" | "/garagem"; label: string };
 
@@ -18,67 +19,76 @@ export function NavIsland({ compact }: { compact: boolean }) {
 
   return (
     <View style={styles.bar}>
-      <PressableScale onPress={() => router.navigate("/")} accessibilityLabel="Toro, voltar ao acervo">
-        <Mark compact={compact} />
+      <PressableScale onPress={() => router.navigate("/")} accessibilityLabel="Toro, voltar ao acervo" cue={null}>
+        <View style={styles.brand}>
+          <Mark compact={compact} />
+        </View>
       </PressableScale>
-      <View style={styles.tabs}>
-        {TABS.map((tab) => {
-          const active = tab.href === "/" ? pathname === "/" || pathname.startsWith("/carro") : pathname === tab.href;
-          return (
-            <PressableScale
-              key={tab.href}
-              onPress={() => router.navigate(tab.href)}
-              accessibilityLabel={tab.label}
-              style={[styles.tab, active && styles.tabActive]}
-            >
-              {(hovered) => (
-                <>
-                  <Text style={[styles.tabLabel, (active || hovered) && styles.tabLabelActive]}>{tab.label}</Text>
-                  {tab.href === "/garagem" && units > 0 && (
-                    <View style={styles.badge}>
-                      <Text style={styles.badgeText}>{units}</Text>
-                    </View>
-                  )}
-                </>
-              )}
-            </PressableScale>
-          );
-        })}
+      <View style={styles.right}>
+        <View style={styles.tabs}>
+          {TABS.map((tab) => {
+            const active = tab.href === "/" ? pathname === "/" || pathname.startsWith("/carro") : pathname === tab.href;
+            return (
+              <PressableScale
+                key={tab.href}
+                onPress={() => router.navigate(tab.href)}
+                accessibilityLabel={tab.label}
+                accessibilityState={{ selected: active }}
+              >
+                {(hovered) => (
+                  <View style={styles.tab}>
+                    <Text style={[styles.tabLabel, (active || hovered) && styles.tabLabelActive]}>{tab.label}</Text>
+                    {tab.href === "/garagem" && units > 0 && (
+                      <View style={styles.badge}>
+                        <Text style={styles.badgeText}>{units}</Text>
+                      </View>
+                    )}
+                    <View style={[styles.rail, active && styles.railActive]} />
+                  </View>
+                )}
+              </PressableScale>
+            );
+          })}
+        </View>
+        <SoundToggle showLabel={!compact} />
       </View>
     </View>
   );
 }
 
-const glass = Platform.OS === "web" ? ({ backdropFilter: "blur(18px)" } as object) : {};
+const glass = Platform.OS === "web" ? ({ backdropFilter: "blur(16px) saturate(140%)" } as object) : {};
 
 const styles = StyleSheet.create({
   bar: {
     flexDirection: "row",
     alignItems: "center",
     justifyContent: "space-between",
-    gap: 16,
-    paddingLeft: 18,
+    gap: 12,
+    paddingLeft: 14,
     paddingRight: 6,
     paddingVertical: 6,
-    borderRadius: 999,
+    borderRadius: 12,
     borderWidth: 1,
-    borderColor: colors.hairlineStrong,
-    backgroundColor: "rgba(14,14,17,0.86)",
+    borderColor: colors.lineStrong,
+    backgroundColor: "rgba(8,8,10,0.82)",
     ...glass,
   },
-  tabs: { flexDirection: "row", gap: 4 },
-  tab: { flexDirection: "row", alignItems: "center", gap: 8, paddingHorizontal: 16, paddingVertical: 10, borderRadius: 999 },
-  tabActive: { backgroundColor: colors.highlight },
-  tabLabel: { fontFamily: fonts.semibold, fontSize: 13, color: colors.muted },
+  brand: { paddingVertical: 6, paddingRight: 6 },
+  right: { flexDirection: "row", alignItems: "center", gap: 6 },
+  tabs: { flexDirection: "row" },
+  tab: { flexDirection: "row", alignItems: "center", gap: 8, height: 40, paddingHorizontal: 12 },
+  tabLabel: { fontFamily: fonts.techSemibold, fontSize: 13, letterSpacing: 1.4, color: colors.muted, textTransform: "uppercase" },
   tabLabelActive: { color: colors.text },
+  rail: { position: "absolute", left: 12, right: 12, bottom: 2, height: 2, backgroundColor: "transparent" },
+  railActive: { backgroundColor: colors.accent },
   badge: {
     minWidth: 20,
     height: 20,
-    paddingHorizontal: 6,
-    borderRadius: 10,
-    backgroundColor: colors.gold,
+    paddingHorizontal: 5,
+    borderRadius: 4,
+    backgroundColor: colors.accent,
     alignItems: "center",
     justifyContent: "center",
   },
-  badgeText: { fontFamily: fonts.heavy, fontSize: 11, color: colors.onGold },
+  badgeText: { fontFamily: fonts.techBold, fontSize: 12, color: colors.onAccent },
 });

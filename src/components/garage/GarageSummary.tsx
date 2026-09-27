@@ -41,12 +41,12 @@ function Metric({ label, value }: { label: string; value: number }) {
 }
 
 const styles = StyleSheet.create({
-  core: { backgroundColor: "#15130D" },
+  core: { backgroundColor: "#0C0F05" },
   body: { padding: 24, gap: 10 },
-  label: { fontFamily: fonts.semibold, fontSize: 10, letterSpacing: 2.2, color: colors.muted, textTransform: "uppercase" },
-  total: { fontFamily: fonts.display, fontSize: 22, color: colors.gold },
-  meta: { flexDirection: "row", gap: 32, marginTop: 14, paddingTop: 18, borderTopWidth: 1, borderTopColor: colors.hairline },
+  label: { fontFamily: fonts.techSemibold, fontSize: 11, letterSpacing: 2, color: colors.muted, textTransform: "uppercase" },
+  total: { fontFamily: fonts.techBold, fontSize: 34, lineHeight: 40, color: colors.accent, fontVariant: ["tabular-nums"], letterSpacing: -0.5 },
+  meta: { flexDirection: "row", gap: 32, marginTop: 14, paddingTop: 18, borderTopWidth: 1, borderTopColor: colors.line },
   metric: { gap: 6 },
   action: { marginTop: 18 },
-  metricValue: { fontFamily: fonts.display, fontSize: 18, color: colors.text },
+  metricValue: { fontFamily: fonts.techBold, fontSize: 26, color: colors.text, fontVariant: ["tabular-nums"] },
 });

@@ -1,39 +1,44 @@
 import { useEffect, useRef } from "react";
 import { Animated, Platform, StyleSheet, View } from "react-native";
+import { useReducedMotion } from "../../hooks/useReducedMotion";
 import { colors, motion } from "../../theme/tokens";
 import { Shell } from "../ui/Shell";
 
 export function TileSkeleton({ width }: { width: number }) {
-  const pulse = useRef(new Animated.Value(0.4)).current;
+  const reduced = useReducedMotion();
+  const sweep = useRef(new Animated.Value(0)).current;
 
   useEffect(() => {
+    if (reduced) return;
     const loop = Animated.loop(
-      Animated.sequence([
-        Animated.timing(pulse, { toValue: 1, duration: 900, easing: motion.easeOut, useNativeDriver: Platform.OS !== "web" }),
-        Animated.timing(pulse, { toValue: 0.4, duration: 900, easing: motion.easeOut, useNativeDriver: Platform.OS !== "web" }),
-      ]),
+      Animated.timing(sweep, { toValue: 1, duration: 1300, easing: motion.easeInOut, useNativeDriver: Platform.OS !== "web" }),
     );
     loop.start();
     return () => loop.stop();
-  }, [pulse]);
+  }, [reduced, sweep]);
+
+  const translateX = sweep.interpolate({ inputRange: [0, 1], outputRange: [-width, width] });
 
   return (
-    <Animated.View style={{ width, opacity: pulse }} accessibilityLabel="Carregando modelo">
+    <View style={{ width }} accessibilityLabel="Carregando modelo">
       <Shell>
-        <View style={styles.stage} />
+        <View style={styles.stage}>
+          <Animated.View style={[styles.scan, { transform: [{ translateX }] }]} />
+        </View>
         <View style={styles.body}>
           <View style={[styles.bar, { width: "30%" }]} />
           <View style={[styles.bar, styles.barTall, { width: "70%" }]} />
-          <View style={[styles.bar, { width: "40%", marginTop: 12 }]} />
+          <View style={[styles.bar, { width: "55%", marginTop: 12 }]} />
         </View>
       </Shell>
-    </Animated.View>
+    </View>
   );
 }
 
 const styles = StyleSheet.create({
-  stage: { height: 188, backgroundColor: "#0C0C0F" },
+  stage: { height: 210, backgroundColor: colors.stage, overflow: "hidden" },
+  scan: { position: "absolute", top: 0, bottom: 0, width: 2, left: "50%", backgroundColor: colors.accentLine },
   body: { padding: 20, gap: 10 },
-  bar: { height: 10, borderRadius: 5, backgroundColor: colors.surfaceRaised },
+  bar: { height: 10, borderRadius: 3, backgroundColor: colors.surfaceRaised },
   barTall: { height: 18 },
 });

@@ -1,5 +1,6 @@
 import type { Car } from "../models/Car";
 import { carImageUri } from "../models/Car";
+import { performanceOf, type Performance } from "./performance";
 
 export type Era = "classic" | "legend" | "modern";
 export type EraFilter = Era | "all";
@@ -14,6 +15,7 @@ export type ShowroomCar = {
   era: Era;
   price: number;
   image: string;
+  performance: Performance;
 };
 
 export const ERA_LABEL: Record<Era, string> = {
@@ -78,6 +80,7 @@ export function toShowroomCar(car: Car): ShowroomCar {
     era: eraOf(car.releaseYear),
     price: priceToNumber(car.price),
     image: carImageUri(car.id),
+    performance: performanceOf(car.carName, eraOf(car.releaseYear)),
   };
 }
 

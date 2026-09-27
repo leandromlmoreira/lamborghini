@@ -1,4 +1,4 @@
-import { StyleSheet, Text } from "react-native";
+import { StyleSheet, Text, View } from "react-native";
 import { colors, fonts } from "../../theme/tokens";
 import { PressableScale } from "./PressableScale";
 
@@ -11,12 +11,13 @@ type Props = {
 
 export function Chip({ label, count, active, onPress }: Props) {
   return (
-    <PressableScale onPress={onPress} accessibilityLabel={label} style={[styles.chip, active && styles.active]}>
+    <PressableScale onPress={onPress} accessibilityLabel={label} accessibilityState={{ selected: active }} cue="tick">
       {(hovered) => (
-        <>
-          <Text style={[styles.label, hovered && styles.labelHovered, active && styles.labelActive]}>{label}</Text>
-          {count !== undefined && <Text style={[styles.count, active && styles.countActive]}>{count}</Text>}
-        </>
+        <View style={[styles.chip, hovered && styles.hovered, active && styles.active]}>
+          <Text style={[styles.label, (hovered || active) && styles.labelOn]}>{label}</Text>
+          {count !== undefined && <Text style={[styles.count, active && styles.countActive]}>{String(count).padStart(2, "0")}</Text>}
+          <View style={[styles.rail, active && styles.railActive]} />
+        </View>
       )}
     </PressableScale>
   );
@@ -26,18 +27,21 @@ const styles = StyleSheet.create({
   chip: {
     flexDirection: "row",
     alignItems: "center",
-    gap: 8,
+    gap: 10,
+    height: 40,
     paddingHorizontal: 16,
-    paddingVertical: 9,
-    borderRadius: 999,
+    borderRadius: 8,
     borderWidth: 1,
-    borderColor: colors.hairline,
-    backgroundColor: colors.shell,
+    borderColor: colors.line,
+    backgroundColor: "rgba(255,255,255,0.02)",
+    overflow: "hidden",
   },
-  active: { backgroundColor: colors.text, borderColor: colors.text },
-  label: { fontFamily: fonts.semibold, fontSize: 13, color: colors.muted },
-  labelHovered: { color: colors.text },
-  labelActive: { color: colors.background },
-  count: { fontFamily: fonts.semibold, fontSize: 11, color: colors.faint },
-  countActive: { color: colors.faint },
+  hovered: { borderColor: colors.lineStrong },
+  active: { borderColor: colors.accentLine, backgroundColor: colors.accentSoft },
+  label: { fontFamily: fonts.techSemibold, fontSize: 13, letterSpacing: 1, color: colors.muted, textTransform: "uppercase" },
+  labelOn: { color: colors.text },
+  count: { fontFamily: fonts.tech, fontSize: 12, color: colors.faint },
+  countActive: { color: colors.accent },
+  rail: { position: "absolute", left: 12, right: 12, bottom: 0, height: 2, backgroundColor: "transparent" },
+  railActive: { backgroundColor: colors.accent },
 });
