@@ -13,9 +13,9 @@ export function GarageScreen() {
   const { isWide } = useLayout();
 
   return (
-    <ScreenFrame>
+    <ScreenFrame curtain="Garagem">
       <View style={styles.page}>
-        <SectionHeading eyebrow="Minha garagem" title={entries.length ? "Sua coleção particular" : "A garagem está vazia"} />
+        <SectionHeading title={entries.length ? "Sua coleção particular" : "A garagem está vazia"} />
         {entries.length === 0 ? (
           <EmptyState
             title="Nenhuma lenda estacionada"

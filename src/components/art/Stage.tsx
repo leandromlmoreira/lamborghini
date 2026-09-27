@@ -1,54 +1,79 @@
 import { StyleSheet, View } from "react-native";
-import Svg, { Defs, Ellipse, Line, RadialGradient, Rect, Stop } from "react-native-svg";
+import Svg, { Defs, Ellipse, Line, LinearGradient, RadialGradient, Rect, Stop } from "react-native-svg";
 import { colors } from "../../theme/tokens";
 
-export type StageTone = "gold" | "ice" | "ember";
+export type StageTone = "acid" | "ice" | "amber";
 
 type Props = {
   tone?: StageTone;
   grid?: boolean;
+  horizon?: number;
 };
 
-const TONES: Record<StageTone, string> = {
-  gold: colors.gold,
-  ice: "#8FB8FF",
-  ember: "#FF7A45",
+export const STAGE_TONES: Record<StageTone, string> = {
+  acid: colors.accent,
+  ice: colors.ice,
+  amber: colors.amber,
 };
 
-const GRID_LINES = [-60, -35, -15, 0, 15, 35, 60];
+const FLOOR_LINES = [-80, -48, -24, -8, 8, 24, 48, 80];
 
-export function Stage({ tone = "gold", grid = true }: Props) {
-  const glow = TONES[tone];
+export function Stage({ tone = "acid", grid = true, horizon = 150 }: Props) {
+  const glow = STAGE_TONES[tone];
+  const id = `${tone}-${horizon}`;
   return (
     <View style={StyleSheet.absoluteFill} pointerEvents="none">
       <Svg width="100%" height="100%" viewBox="0 0 400 240" preserveAspectRatio="xMidYMid slice">
         <Defs>
-          <RadialGradient id={`halo-${tone}`} cx="50%" cy="42%" r="60%">
-            <Stop offset="0" stopColor={glow} stopOpacity={0.22} />
-            <Stop offset="0.55" stopColor={glow} stopOpacity={0.05} />
+          <LinearGradient id={`wall-${id}`} x1="0" y1="0" x2="0" y2="1">
+            <Stop offset="0" stopColor="#101014" />
+            <Stop offset={String(horizon / 240)} stopColor="#07070A" />
+            <Stop offset="1" stopColor="#020203" />
+          </LinearGradient>
+          <RadialGradient id={`beam-${id}`} cx="50%" cy="0%" r="100%">
+            <Stop offset="0" stopColor="#FFFFFF" stopOpacity={0.14} />
+            <Stop offset="0.45" stopColor="#FFFFFF" stopOpacity={0.05} />
+            <Stop offset="1" stopColor="#FFFFFF" stopOpacity={0} />
+          </RadialGradient>
+          <RadialGradient id={`lamp-${id}`} cx="50%" cy="50%" r="50%">
+            <Stop offset="0" stopColor="#FFFFFF" stopOpacity={0.9} />
+            <Stop offset="1" stopColor="#FFFFFF" stopOpacity={0} />
+          </RadialGradient>
+          <RadialGradient id={`halo-${id}`} cx="50%" cy="50%" r="50%">
+            <Stop offset="0" stopColor={glow} stopOpacity={0.2} />
+            <Stop offset="0.6" stopColor={glow} stopOpacity={0.04} />
             <Stop offset="1" stopColor={glow} stopOpacity={0} />
           </RadialGradient>
-          <RadialGradient id={`floor-${tone}`} cx="50%" cy="50%" r="50%">
-            <Stop offset="0" stopColor="#000" stopOpacity={0.85} />
-            <Stop offset="1" stopColor="#000" stopOpacity={0} />
+          <RadialGradient id={`pool-${id}`} cx="50%" cy="50%" r="50%">
+            <Stop offset="0" stopColor="#FFFFFF" stopOpacity={0.1} />
+            <Stop offset="1" stopColor="#FFFFFF" stopOpacity={0} />
           </RadialGradient>
+          <LinearGradient id={`edge-${id}`} x1="0" y1="0" x2="1" y2="0">
+            <Stop offset="0" stopColor={glow} stopOpacity={0} />
+            <Stop offset="0.5" stopColor={glow} stopOpacity={0.5} />
+            <Stop offset="1" stopColor={glow} stopOpacity={0} />
+          </LinearGradient>
         </Defs>
-        <Rect x={0} y={0} width={400} height={240} fill={`url(#halo-${tone})`} />
+        <Rect x={0} y={0} width={400} height={240} fill={`url(#wall-${id})`} />
+        <Ellipse cx={200} cy={0} rx={130} ry={horizon + 30} fill={`url(#beam-${id})`} />
+        <Ellipse cx={200} cy={0} rx={62} ry={horizon} fill={`url(#beam-${id})`} />
+        <Ellipse cx={200} cy={1} rx={46} ry={3} fill={`url(#lamp-${id})`} />
+        <Ellipse cx={200} cy={horizon - 24} rx={190} ry={90} fill={`url(#halo-${id})`} />
         {grid &&
-          GRID_LINES.map((offset) => (
+          FLOOR_LINES.map((offset) => (
             <Line
               key={offset}
-              x1={200 + offset * 0.6}
-              y1={150}
-              x2={200 + offset * 6}
+              x1={200 + offset * 0.9}
+              y1={horizon}
+              x2={200 + offset * 7}
               y2={240}
-              stroke={glow}
-              strokeOpacity={0.08}
-              strokeWidth={0.6}
+              stroke="#FFFFFF"
+              strokeOpacity={0.045}
+              strokeWidth={0.5}
             />
           ))}
-        {grid && <Line x1={0} y1={150} x2={400} y2={150} stroke={glow} strokeOpacity={0.12} strokeWidth={0.6} />}
-        <Ellipse cx={200} cy={170} rx={150} ry={14} fill={`url(#floor-${tone})`} />
+        <Line x1={0} y1={horizon} x2={400} y2={horizon} stroke={`url(#edge-${id})`} strokeWidth={0.6} />
+        <Ellipse cx={200} cy={horizon + 26} rx={170} ry={20} fill={`url(#pool-${id})`} />
       </Svg>
     </View>
   );

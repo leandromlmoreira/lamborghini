@@ -39,10 +39,11 @@ export function ShowroomScreen() {
   };
 
   return (
-    <ScreenFrame scrollRef={scrollRef}>
+    <ScreenFrame scrollRef={scrollRef} curtain="Acervo">
       <Hero
         flagship={flagship(cars)}
         count={cars.length}
+        source={source}
         onExplore={() => scrollRef.current?.scrollTo({ y: catalogY.current, animated: true })}
       />
 
@@ -52,7 +53,6 @@ export function ShowroomScreen() {
 
       <View style={styles.catalog} onLayout={(event) => (catalogY.current = event.nativeEvent.layout.y)}>
         <SectionHeading
-          eyebrow="O acervo"
           title="Escolha a sua próxima lenda"
           aside={<Text style={styles.count}>{`${visible.length} de ${cars.length} modelos`}</Text>}
         />
@@ -88,13 +88,13 @@ function buildStats(cars: ShowroomCar[], units: number): Stat[] {
   return [
     { label: "Valor do acervo", value: formatUsdCompact(catalogValue(cars)) },
     { label: "Linha do tempo", value: `${first}–${last}` },
-    { label: "Modelos em exibição", value: String(cars.length).padStart(2, "0") },
-    { label: "Na sua garagem", value: String(units).padStart(2, "0") },
+    { label: "Potência máxima", value: String(Math.max(...cars.map((car) => car.performance.power))), unit: "cv" },
+    { label: "Na sua garagem", value: String(units).padStart(2, "0"), unit: units === 1 ? "unidade" : "unidades" },
   ];
 }
 
 const styles = StyleSheet.create({
-  stats: { marginTop: 72 },
-  catalog: { marginTop: 88, gap: 28 },
-  count: { fontFamily: fonts.medium, fontSize: 13, color: colors.muted },
+  stats: { marginTop: 64 },
+  catalog: { marginTop: 112, gap: 28 },
+  count: { fontFamily: fonts.techSemibold, fontSize: 12, letterSpacing: 1.6, color: colors.muted, textTransform: "uppercase" },
 });

@@ -6,7 +6,7 @@ export default function NotFoundRoute() {
   return (
     <>
       <Stack.Screen options={{ title: "Toro · Página não encontrada" }} />
-      <ScreenFrame>
+      <ScreenFrame curtain="Rota perdida">
         <EmptyState
           title="Essa vaga não existe"
           message="O endereço que você abriu não leva a nenhuma sala do showroom."

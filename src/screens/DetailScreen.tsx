@@ -1,18 +1,18 @@
 import { router } from "expo-router";
-import { Animated, StyleSheet, Text, View } from "react-native";
+import { Animated, Platform, StyleSheet, Text, View } from "react-native";
 import { ERA_LABEL, formatUsd, priceRank, type ShowroomCar } from "../domain/catalog";
 import { useEntrance } from "../hooks/useEntrance";
 import { useLayout } from "../hooks/useLayout";
 import { useShowroom } from "../state/ShowroomContext";
 import { colors, fonts } from "../theme/tokens";
 import { Gallery } from "../components/detail/Gallery";
+import { PerformanceSheet } from "../components/detail/PerformanceSheet";
 import { PurchasePanel } from "../components/detail/PurchasePanel";
 import { SpecGrid, type Spec } from "../components/detail/SpecGrid";
 import { ScreenFrame } from "../components/frame/ScreenFrame";
 import { CatalogGrid } from "../components/showroom/CatalogGrid";
 import { BackLink } from "../components/ui/BackLink";
 import { EmptyState } from "../components/ui/EmptyState";
-import { Eyebrow } from "../components/ui/Eyebrow";
 import { SectionHeading } from "../components/ui/SectionHeading";
 
 export function DetailScreen({ id }: { id: number }) {
@@ -21,7 +21,7 @@ export function DetailScreen({ id }: { id: number }) {
 
   if (!car) {
     return (
-      <ScreenFrame>
+      <ScreenFrame curtain="Ficha">
         {source === "loading" ? (
           <CatalogGrid cars={[]} garage={garage} loading onToggle={toggle} />
         ) : (
@@ -39,11 +39,14 @@ export function DetailScreen({ id }: { id: number }) {
   const related = cars.filter((item) => item.era === car.era && item.id !== car.id).slice(0, 3);
 
   return (
-    <ScreenFrame>
+    <ScreenFrame curtain={car.family} rev={car.performance}>
       <DetailBody car={car} cars={cars} quantity={garage[car.id] ?? 0} onAdjust={(delta) => adjust(car.id, delta)} />
       {related.length > 0 && (
         <View style={styles.related}>
-          <SectionHeading eyebrow={`Mesma era · ${ERA_LABEL[car.era]}`} title="Continue a visita" />
+          <SectionHeading
+            title="Continue a visita"
+            aside={<Text style={styles.aside}>{`Mesma era · ${ERA_LABEL[car.era]}`}</Text>}
+          />
           <CatalogGrid cars={related} garage={garage} loading={false} onToggle={toggle} />
         </View>
       )}
@@ -60,26 +63,33 @@ type BodyProps = {
 
 function DetailBody({ car, cars, quantity, onAdjust }: BodyProps) {
   const { isWide, isMedium } = useLayout();
-  const info = useEntrance(120);
+  const gallery = useEntrance(520, 32);
+  const info = useEntrance(640);
   const specs: Spec[] = [
     { label: "Ano", value: String(car.year) },
     { label: "Era", value: ERA_LABEL[car.era] },
     { label: "Família", value: car.family },
     { label: "Ranking de preço", value: `${priceRank(cars, car)}º de ${cars.length}` },
   ];
+  const nameSize = isWide ? 32 : isMedium ? 30 : 21;
 
   return (
     <View style={styles.top}>
       <BackLink label="Voltar ao acervo" onPress={goBack} />
       <View style={[styles.split, isWide && styles.splitWide]}>
-        <View style={isWide ? styles.galleryWide : undefined}>
+        <Animated.View style={[isWide && styles.galleryWide, isWide && sticky, gallery]}>
           <Gallery car={car} />
-        </View>
+        </Animated.View>
         <Animated.View style={[styles.info, isWide && styles.infoWide, info]}>
-          <Eyebrow label={`${car.family} · ${car.year}`} />
-          <Text style={[styles.name, { fontSize: isMedium ? 36 : 26, lineHeight: isMedium ? 46 : 34 }]}>{car.name}</Text>
-          {car.fullName !== car.name && <Text style={styles.fullName}>{car.fullName}</Text>}
+          <View style={styles.heading}>
+            <Text style={styles.meta}>{`${car.family} · ${car.year}`}</Text>
+            <Text style={[styles.name, { fontSize: nameSize, lineHeight: Math.round(nameSize * 1.3) }]} accessibilityRole="header">
+              {car.name}
+            </Text>
+            {car.fullName !== car.name && <Text style={styles.fullName}>{car.fullName}</Text>}
+          </View>
           <Text style={styles.price}>{formatUsd(car.price)}</Text>
+          <PerformanceSheet performance={car.performance} />
           <SpecGrid specs={specs} />
           <PurchasePanel car={car} quantity={quantity} onAdjust={onAdjust} />
         </Animated.View>
@@ -88,20 +98,25 @@ function DetailBody({ car, cars, quantity, onAdjust }: BodyProps) {
   );
 }
 
+const sticky = Platform.OS === "web" ? ({ position: "sticky", top: 112 } as object) : {};
+
 function goBack() {
   if (router.canGoBack()) router.back();
   else router.replace("/");
 }
 
 const styles = StyleSheet.create({
-  top: { gap: 28 },
-  split: { gap: 32 },
-  splitWide: { flexDirection: "row", alignItems: "flex-start", gap: 40 },
-  galleryWide: { flex: 1.35 },
-  info: { gap: 18 },
+  top: { gap: 24 },
+  split: { gap: 36 },
+  splitWide: { flexDirection: "row", alignItems: "flex-start", gap: 48 },
+  galleryWide: { flex: 1.3 },
+  info: { gap: 22 },
   infoWide: { flex: 1 },
-  name: { fontFamily: fonts.display, color: colors.text, letterSpacing: -0.4 },
-  fullName: { fontFamily: fonts.medium, fontSize: 14, color: colors.muted, marginTop: -8 },
-  price: { fontFamily: fonts.display, fontSize: 22, color: colors.gold, marginVertical: 6 },
-  related: { marginTop: 96, gap: 28 },
+  heading: { gap: 10 },
+  meta: { fontFamily: fonts.techSemibold, fontSize: 12, letterSpacing: 2.4, color: colors.accent, textTransform: "uppercase" },
+  name: { fontFamily: fonts.display, color: colors.text, textTransform: "uppercase", letterSpacing: 0.2 },
+  fullName: { fontFamily: fonts.medium, fontSize: 14, color: colors.muted },
+  price: { fontFamily: fonts.techBold, fontSize: 30, color: colors.text, fontVariant: ["tabular-nums"], letterSpacing: -0.3 },
+  related: { marginTop: 112, gap: 28 },
+  aside: { fontFamily: fonts.techSemibold, fontSize: 12, letterSpacing: 1.6, color: colors.muted, textTransform: "uppercase" },
 });

@@ -10,31 +10,32 @@ type Props = {
 
 export function BackLink({ label, onPress }: Props) {
   return (
-    <PressableScale onPress={onPress} accessibilityLabel={label} style={styles.link}>
+    <PressableScale onPress={onPress} accessibilityLabel={label} wrapperStyle={styles.wrap}>
       {(hovered) => (
-        <>
-          <View style={[styles.orb, hovered && styles.orbHovered]}>
-            <Icon name="arrow-left" size={15} color={hovered ? colors.gold : colors.text} />
+        <View style={styles.link}>
+          <View style={[styles.icon, hovered && styles.iconHovered]}>
+            <Icon name="arrow-left" size={16} color={hovered ? colors.accent : colors.text} />
           </View>
           <Text style={[styles.label, hovered && styles.labelHovered]}>{label}</Text>
-        </>
+        </View>
       )}
     </PressableScale>
   );
 }
 
 const styles = StyleSheet.create({
-  link: { flexDirection: "row", alignItems: "center", gap: 12, alignSelf: "flex-start", paddingRight: 8 },
-  orb: {
+  wrap: { alignSelf: "flex-start" },
+  link: { flexDirection: "row", alignItems: "center", gap: 12, paddingVertical: 6, paddingRight: 8 },
+  icon: {
     width: 36,
     height: 36,
-    borderRadius: 18,
+    borderRadius: 8,
     borderWidth: 1,
-    borderColor: colors.hairlineStrong,
+    borderColor: colors.lineStrong,
     alignItems: "center",
     justifyContent: "center",
   },
-  orbHovered: { borderColor: colors.goldLine, transform: [{ translateX: -3 }] },
-  label: { fontFamily: fonts.semibold, fontSize: 13, color: colors.muted },
+  iconHovered: { borderColor: colors.accentLine, transform: [{ translateX: -3 }] },
+  label: { fontFamily: fonts.techSemibold, fontSize: 13, letterSpacing: 1.4, color: colors.muted, textTransform: "uppercase" },
   labelHovered: { color: colors.text },
 });
