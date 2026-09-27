@@ -2,7 +2,7 @@
 
 Um showroom de supercarros italianos em React Native: percorra o acervo, abra a ficha de cada modelo e monte a sua garagem com quantidade e valor calculados na hora.
 
-**[Ver ao vivo →](https://leandromlmoreira.github.io/react-native-lamborghini/)**
+**[Ver ao vivo →](https://leandromlmoreira.github.io/lamborghini/)**
 
 <p>
   <img src="docs/preview.png" alt="Tela inicial do Toro no desktop" width="72%" />
@@ -44,7 +44,7 @@ Checagens e build da web:
 
 ```bash
 npm run typecheck
-npm run build:web  # gera a pasta dist, publicada em /react-native-lamborghini
+npm run build:web  # gera a pasta dist, publicada em /lamborghini
 ```
 
 ## Estrutura
