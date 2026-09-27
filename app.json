@@ -1,7 +1,7 @@
 {
   "expo": {
     "name": "Toro Showroom",
-    "slug": "react-native-lamborghini",
+    "slug": "lamborghini",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
@@ -35,7 +35,7 @@
     "scheme": "toro",
     "backgroundColor": "#08080A",
     "experiments": {
-      "baseUrl": "/react-native-lamborghini"
+      "baseUrl": "/lamborghini"
     }
   }
 }
