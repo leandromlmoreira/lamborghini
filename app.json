@@ -1,11 +1,11 @@
 {
   "expo": {
-    "name": "lamborghini-app",
-    "slug": "lamborghini-app",
+    "name": "Toro Showroom",
+    "slug": "react-native-lamborghini",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
-    "userInterfaceStyle": "light",
+    "userInterfaceStyle": "dark",
     "ios": {
       "supportsTablet": true
     },
@@ -19,7 +19,23 @@
       "predictiveBackGestureEnabled": false
     },
     "web": {
-      "favicon": "./assets/favicon.png"
+      "favicon": "./assets/favicon.png",
+      "bundler": "metro",
+      "output": "single",
+      "name": "Toro Showroom",
+      "shortName": "Toro",
+      "themeColor": "#08080A",
+      "backgroundColor": "#08080A",
+      "description": "Showroom e garagem de supercarros italianos, com dados ao vivo."
+    },
+    "plugins": [
+      "expo-font",
+      "expo-router"
+    ],
+    "scheme": "toro",
+    "backgroundColor": "#08080A",
+    "experiments": {
+      "baseUrl": "/react-native-lamborghini"
     }
   }
 }
